@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <CopyLocalLockFileAssemblies Condition="'$(Configuration)' == 'Debug'">true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NET_AssemblyLoadContext_IsolationProblem.LibBase\NET_AssemblyLoadContext_IsolationProblem.LibBase.csproj">
+        <Private>false</Private>
+		<ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+
+    <PackageReference Include="Csla" Version="7.0.0" />
+  </ItemGroup>
+
+  <Target Name="CopyExtension" Condition="'$(Configuration)' == 'Debug'" AfterTargets="AfterBuild">
+	<ItemGroup>
+		<ExtOutputFiles Include="$(OutDir)\**\*.*" />
+	</ItemGroup>
+	<Copy SourceFiles="@(ExtOutputFiles)" DestinationFolder="$(SolutionDir)\NET_AssemblyLoadContext_IsolationProblem.EntryPoint\bin\Debug\net7.0\libext\" />
+  </Target>
+</Project>
